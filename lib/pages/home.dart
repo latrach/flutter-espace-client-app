@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_espace_client_app/components/global_fab.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -44,7 +45,7 @@ class HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      floatingActionButton: buildFloatingActionButtons(),
+      floatingActionButton: const GlobalFloatingActionButtons(),
     );
   }
 
@@ -189,47 +190,4 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  // Floating Action Buttons Widget
-  Widget buildFloatingActionButtons() {
-    void linkMesContrats() {
-      // Logique pour naviguer vers "Mes contrats"
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Scaffold(
-          appBar: AppBar(title: Text("Mes contrats")),
-          body: Center(child: Text("Page Mes contrats")),
-        )),
-      );
-    }
-
-    void linkFaq() {
-      // Logique pour naviguer vers "FAQ"
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Scaffold(
-          appBar: AppBar(title: Text("FAQ")),
-          body: Center(child: Text("Page FAQ")),
-        )),
-      );
-    }
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        FloatingActionButton(
-          onPressed: linkMesContrats,
-          tooltip: 'Mes contrats',
-          backgroundColor: Theme.of(context).colorScheme.secondary,
-          child: const Icon(Icons.file_copy, color: Colors.white),
-        ),
-        SizedBox(width: 16),
-        FloatingActionButton(
-          onPressed: linkFaq,
-          tooltip: 'Aide',
-          backgroundColor: Theme.of(context).colorScheme.secondary,
-          child: const Icon(Icons.help, color: Colors.white),
-        ),
-      ],
-    );
-  }
 }
