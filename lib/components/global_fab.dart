@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
+
 class GlobalFloatingActionButtons extends StatelessWidget {
-  const GlobalFloatingActionButtons({super.key});
+  final bool showMesContrats;
+  final bool showFaq;
+  const GlobalFloatingActionButtons({
+    super.key,
+    this.showMesContrats = true,
+    this.showFaq = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,23 +32,29 @@ class GlobalFloatingActionButtons extends StatelessWidget {
       );
     }
 
+    List<Widget> buttons = [];
+    if (showMesContrats) {
+      buttons.add(FloatingActionButton(
+        heroTag: 'mesContratsBtn',
+        onPressed: linkMesContrats,
+        tooltip: 'Mes contrats',
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        child: const Icon(Icons.file_copy, color: Colors.white),
+      ));
+    }
+    if (showFaq) {
+      if (buttons.isNotEmpty) buttons.add(SizedBox(width: 16));
+      buttons.add(FloatingActionButton(
+        heroTag: 'faqBtn',
+        onPressed: linkFaq,
+        tooltip: 'Aide',
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        child: const Icon(Icons.help, color: Colors.white),
+      ));
+    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        FloatingActionButton(
-          onPressed: linkMesContrats,
-          tooltip: 'Mes contrats',
-          backgroundColor: Theme.of(context).colorScheme.secondary,
-          child: const Icon(Icons.file_copy, color: Colors.white),
-        ),
-        SizedBox(width: 16),
-        FloatingActionButton(
-          onPressed: linkFaq,
-          tooltip: 'Aide',
-          backgroundColor: Theme.of(context).colorScheme.secondary,
-          child: const Icon(Icons.help, color: Colors.white),
-        ),
-      ],
+      children: buttons,
     );
   }
 }
