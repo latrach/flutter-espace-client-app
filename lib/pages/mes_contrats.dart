@@ -7,6 +7,21 @@ class MesContratsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text(title));
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(title),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pushReplacementNamed('/');
+            },
+            child: Text('Aller à l\'accueil'),
+          ),
+        ],
+      ),
+    );
   }
 }

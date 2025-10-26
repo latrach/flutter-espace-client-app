@@ -22,20 +22,18 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topCenter,
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            welcomeCard(context),
-            Text("SE CONNECTER", style: TextStyle(fontSize: 20)),
-            separationBorder(),
-            Text("Si vous avez déjà un compte, identifiez-vous."),
-            SizedBox(height: 10),
-            formLogin(),
-          ],
-        ),
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          welcomeCard(context),
+          Text("SE CONNECTER", style: TextStyle(fontSize: 20)),
+          separationBorder(),
+          Text("Si vous avez déjà un compte, identifiez-vous."),
+          SizedBox(height: 10),
+          formLogin(),
+        ],
       ),
     );
   }

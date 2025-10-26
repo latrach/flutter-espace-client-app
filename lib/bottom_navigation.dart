@@ -13,7 +13,7 @@ class BottomNavigation extends StatefulWidget {
 class _BottomNavigationState extends State<BottomNavigation> {
   int selectedIndex = 0;
 
-  final List<Widget> _pages = const [
+  final List<Widget> pages = const [
     HomePage(title: 'Accueil'),
     MesContratsPage(title: 'Mes contrats'),
     FaqPage(title: 'Aide'),
@@ -28,7 +28,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(index: selectedIndex, children: _pages),
+      appBar: AppBar(
+        //title: Text(pages[selectedIndex].title),
+      ),
+      body: IndexedStack(index: selectedIndex, children: pages),
       bottomNavigationBar: NavigationBar(
         selectedIndex: selectedIndex,
         onDestinationSelected: onItemTapped,
