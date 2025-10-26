@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'pages/home.dart';
 import 'pages/mes_contrats.dart';
 import 'pages/aide.dart';
+import 'pages/logout.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -38,24 +39,18 @@ class BottomNavigationState extends State<BottomNavigation> {
   }
 
   void onNavTap(int index) {
-    // calculer index réel en fonction de l’état de connexion
-    int logoutIndex = isLoggedIn ? 3 : -1;
-    if (index == logoutIndex) {
-      logout();
-    } else {
-      setState(() => selectedIndex = index);
-    }
+    setState(() => selectedIndex = index);
   }
 
   @override
   Widget build(BuildContext context) {
     // liste dynamique des pages
     final pages = [
-      HomePage(onLoginSuccess: checkLoginStatus),
+      if (!isLoggedIn) HomePage(onLoginSuccess: checkLoginStatus),
       if (isLoggedIn) MesContratsPage(),
       AidePage(),
+      if (isLoggedIn) LogoutPage(onLogout: logout),
     ];
-
 
     return Scaffold(
       appBar: AppBar(
@@ -67,17 +62,19 @@ class BottomNavigationState extends State<BottomNavigation> {
         onDestinationSelected: onNavTap,
         destinations: [
           // Home
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: 'Home',
-          ),
+          if (!isLoggedIn)
+            NavigationDestination(
+              icon: Icon(Icons.home_outlined),
+              selectedIcon: Icon(Icons.home),
+              label: 'Home',
+            ),
           // Mes Contrats
-          if (isLoggedIn) NavigationDestination(
-            icon: Icon(Icons.file_copy_outlined),
-            selectedIcon: Icon(Icons.file_copy),
-            label: 'Mes Contrats'
-          ),
+          if (isLoggedIn)
+            NavigationDestination(
+              icon: Icon(Icons.file_copy_outlined),
+              selectedIcon: Icon(Icons.file_copy),
+              label: 'Mes Contrats',
+            ),
           // Aide
           NavigationDestination(
             icon: Icon(Icons.person_outline),
@@ -85,11 +82,12 @@ class BottomNavigationState extends State<BottomNavigation> {
             label: 'Aide',
           ),
           // Logout
-          if (isLoggedIn) NavigationDestination(
-            icon: Icon(Icons.logout_outlined),
-            selectedIcon: Icon(Icons.logout),
-            label: 'Logout',
-          ),
+          if (isLoggedIn)
+            NavigationDestination(
+              icon: Icon(Icons.logout_outlined),
+              selectedIcon: Icon(Icons.logout),
+              label: 'Logout',
+            ),
         ],
       ),
     );

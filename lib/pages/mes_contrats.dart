@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MesContratsPage extends StatefulWidget {
-
   const MesContratsPage({super.key});
   @override
   State<MesContratsPage> createState() => _MesContratsPageState();
@@ -19,9 +18,8 @@ class _MesContratsPageState extends State<MesContratsPage> {
 
   @override
   void initState() {
-  super.initState();
-  dotenv.load();
-  fetchContrats();
+    super.initState();
+    fetchContrats();
   }
 
   Future<void> fetchContrats() async {
@@ -39,8 +37,8 @@ class _MesContratsPageState extends State<MesContratsPage> {
       return;
     }
 
-  final apiUrl = dotenv.env['API_URL'] ?? '';
-  final url = Uri.parse('$apiUrl/api/mes-contrats');
+    final apiUrl = dotenv.env['API_URL'] ?? '';
+    final url = Uri.parse('$apiUrl/api/mes-contrats');
     final response = await http.get(
       url,
       headers: {
