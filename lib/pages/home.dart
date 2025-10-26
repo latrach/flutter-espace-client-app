@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_espace_client_app/components/global_fab.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -11,7 +10,6 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  int counter = 0;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -24,30 +22,25 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        //backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        //title: Text(widget.title),
-      ),
-      body: Align(
-        alignment: Alignment.topCenter,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              welcomeCard(context),
-              Text("SE CONNECTER", style: TextStyle(fontSize: 20)),
-              separationBorder(),
-              Text("Si vous avez déjà un compte, identifiez-vous."),
-              SizedBox(height: 10),
-              formLogin(),
-            ],
-          ),
+    return Align(
+      alignment: Alignment.topCenter,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            welcomeCard(context),
+            Text("SE CONNECTER", style: TextStyle(fontSize: 20)),
+            separationBorder(),
+            Text("Si vous avez déjà un compte, identifiez-vous."),
+            SizedBox(height: 10),
+            formLogin(),
+          ],
         ),
       ),
-      floatingActionButton: const GlobalFloatingActionButtons(),
     );
   }
+
+  // ...existing code...
 
   Widget separationBorder() {
     return Container(
@@ -189,5 +182,4 @@ class HomePageState extends State<HomePage> {
       ),
     );
   }
-
 }

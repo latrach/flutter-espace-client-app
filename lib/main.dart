@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_espace_client_app/pages/home.dart' as home;
+import 'package:flutter_espace_client_app/bottom_navigation.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,11 +24,11 @@ class MyApp extends StatelessWidget {
           headlineMedium: TextStyle(
             fontSize: 36,
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.secondary,
+            color: const Color(0xFF333333),
           ),
         ),
       ),
-      home: const home.HomePage(title: 'Espace Client'),
+      home: const BottomNavigation(),
     );
   }
 }
