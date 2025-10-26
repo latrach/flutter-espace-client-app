@@ -1,10 +1,9 @@
 //creer la page faq qui affiche Aide
 import 'package:flutter/material.dart';
 
-class FaqPage extends StatelessWidget {
-  const FaqPage({super.key, required this.title});
+class AidePage extends StatelessWidget {
+  const AidePage({super.key});
 
-  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +12,7 @@ class FaqPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(title),
+          Text('Aide'),
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {

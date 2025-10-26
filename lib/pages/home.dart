@@ -1,17 +1,62 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
+  final VoidCallback onLoginSuccess;
 
-  final String title;
+  const HomePage({ super.key, required this.onLoginSuccess});
 
   @override
-  State<HomePage> createState() => HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final storage = FlutterSecureStorage();
+  bool loading = false;
+  String? error;
+
+  Future<void> login() async {
+    setState(() {
+      loading = true;
+      error = null;
+    });
+
+    final apiUrl = dotenv.env['API_URL'] ?? '';
+    final url = Uri.parse('$apiUrl/api/login');
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'username': emailController.text,
+        'password': passwordController.text,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      final token = data['token']; // assume API renvoie { "token": "..." }
+      if (token != null) {
+        await storage.write(key: 'jwt', value: token);
+        widget.onLoginSuccess(); // met à jour la nav dans main.dart
+      } else {
+        setState(() {
+          error = "Token introuvable";
+        });
+      }
+    } else {
+      setState(() {
+        error = "Erreur de connexion : ${response.statusCode}";
+      });
+    }
+
+    setState(() {
+      loading = false;
+    });
+  }
 
   @override
   void dispose() {
@@ -33,6 +78,13 @@ class HomePageState extends State<HomePage> {
           Text("Si vous avez déjà un compte, identifiez-vous."),
           SizedBox(height: 10),
           formLogin(),
+          SizedBox(height: 24),
+          if (error != null)
+            Text(error!, style: TextStyle(color: Colors.red)),
+          SizedBox(height: 16),
+          loading
+              ? CircularProgressIndicator()
+              : ElevatedButton(onPressed: login, child: Text('Se connecter')),
         ],
       ),
     );
@@ -99,29 +151,6 @@ class HomePageState extends State<HomePage> {
   }
 
   Widget formLogin() {
-    login() {
-      // afficher le mail et mot de passe
-      String email = emailController.text;
-      String password = passwordController.text;
-      //alert avec email
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Informations de connexion"),
-            content: Text("Email: $email\nMot de passe: $password"),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text("OK"),
-              ),
-            ],
-          );
-        },
-      );
-    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -151,6 +180,7 @@ class HomePageState extends State<HomePage> {
           //input password
           SizedBox(height: 16),
           TextField(
+            controller: passwordController,
             decoration: InputDecoration(
               labelText: 'Mot de passe',
               border: OutlineInputBorder(),
