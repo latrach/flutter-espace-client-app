@@ -15,8 +15,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   final List<Widget> _pages = const [
     HomePage(title: 'Accueil'),
-    MesContratsPage(),
-    FaqPage(),
+    MesContratsPage(title: 'Mes contrats'),
+    FaqPage(title: 'Aide'),
   ];
 
   void onItemTapped(int index) {
